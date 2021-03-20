@@ -1,0 +1,25 @@
+{
+  "name": "popipo",
+  "version": "0.0.1",
+  "description": "Rhytm game",
+  "main": "dist/main.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "rollup -c -w",
+    "dev": "yarn run start",
+    "build": "yarn run clean && rollup -c"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "rollup": "^2.42.1",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "tslib": "^2.1.0",
+    "typescript": "^4.2.3"
+  }
+}
