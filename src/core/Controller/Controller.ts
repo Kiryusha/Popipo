@@ -19,4 +19,11 @@ export default class Controller {
       this.model.startPeerConnection(inputValue).catch((e) => console.log(e))
     }
   }
+
+  public handleHangUpButtonClick(): void {
+    if (!this.model.guest) return
+  
+    this.model.sendMessage({ type: MDataTypes.leave })
+    this.model.handleMessageLeave()
+  }
 }

@@ -30,6 +30,7 @@ export default class View {
     this.model.bus.subscribe(ModelEvents.addStream, this.handleModelAddStream.bind(this))
     this.loginButton?.addEventListener('click', () => this.controller.handleLoginButtonClick(this.usernameInput?.value))
     this.callButton?.addEventListener('click', () => this.controller.handleCallButtonClick(this.guestInput?.value))
+    this.hangUpButton?.addEventListener('click', this.handleHangUpButtonClick.bind(this))
   }
 
   updatePageVisibility(): void {
@@ -54,5 +55,10 @@ export default class View {
 
   handleModelAddStream(stream: MediaStream): void {
     this.guestPlayer.srcObject = stream
+  }
+
+  handleHangUpButtonClick(): void {
+    this.controller.handleHangUpButtonClick()
+    this.guestPlayer.srcObject = null
   }
 }

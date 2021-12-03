@@ -23,7 +23,7 @@ export default class Model {
   }
 
   sendMessage(data: MData): void {
-    if (this.guest) {
+    if (this.guest.length) {
       data.name = this.guest
     }
 
@@ -185,5 +185,15 @@ export default class Model {
 
   handleMessageLeave(): void {
     console.log('User left')
+
+    this.guest = ''
+    if (this.peerConnection) {
+      this.peerConnection.close()
+      this.peerConnection.onicecandidate = null
+      this.peerConnection.ontrack = null
+      if (this.stream) {
+        this.setupPeerConnection(this.stream)
+      }
+    }
   }
 }
