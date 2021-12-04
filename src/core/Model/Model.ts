@@ -11,7 +11,7 @@ export default class Model {
   peerConnection?: RTCPeerConnection
   
   constructor() {
-    this.webSocket = new WebSocket('ws://localhost:8888')
+    this.webSocket = new WebSocket('wss://kosk-signaling.herokuapp.com')
 
     this.subscribeToEvents()
   }
