@@ -16,21 +16,34 @@ export default class View {
   ownerPlayer = document.getElementById('owner-player') as HTMLVideoElement
   guestPlayer = document.getElementById('guest-player') as HTMLVideoElement
 
-  constructor(
-    private model: Model, 
-    private controller: Controller
-  ) {
+  constructor(private model: Model, private controller: Controller) {
     this.subscribeToEvents()
     this.updatePageVisibility()
   }
 
   subscribeToEvents(): void {
-    this.model.bus.subscribe(ModelEvents.pageStateUpdate, this.handleModelPageStartUpdate.bind(this))
-    this.model.bus.subscribe(ModelEvents.startConnection, this.handleModelStartConnection.bind(this))
-    this.model.bus.subscribe(ModelEvents.addStream, this.handleModelAddStream.bind(this))
-    this.loginButton?.addEventListener('click', () => this.controller.handleLoginButtonClick(this.usernameInput?.value))
-    this.callButton?.addEventListener('click', () => this.controller.handleCallButtonClick(this.guestInput?.value))
-    this.hangUpButton?.addEventListener('click', this.handleHangUpButtonClick.bind(this))
+    this.model.bus.subscribe(
+      ModelEvents.pageStateUpdate,
+      this.handleModelPageStartUpdate.bind(this)
+    )
+    this.model.bus.subscribe(
+      ModelEvents.startConnection,
+      this.handleModelStartConnection.bind(this)
+    )
+    this.model.bus.subscribe(
+      ModelEvents.addStream,
+      this.handleModelAddStream.bind(this)
+    )
+    this.loginButton?.addEventListener('click', () =>
+      this.controller.handleLoginButtonClick(this.usernameInput?.value)
+    )
+    this.callButton?.addEventListener('click', () =>
+      this.controller.handleCallButtonClick(this.guestInput?.value)
+    )
+    this.hangUpButton?.addEventListener(
+      'click',
+      this.handleHangUpButtonClick.bind(this)
+    )
   }
 
   updatePageVisibility(): void {

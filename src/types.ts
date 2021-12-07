@@ -1,7 +1,7 @@
 export enum ModelEvents {
   pageStateUpdate = 'pageStateUpdate',
   startConnection = 'startConnection',
-  addStream = 'addStream'
+  addStream = 'addStream',
 }
 
 export interface MData {
@@ -18,10 +18,10 @@ export enum MDataTypes {
   offer = 'offer',
   answer = 'answer',
   candidate = 'candidate',
-  leave = 'leave'
+  leave = 'leave',
 }
 
 export enum PageStates {
   login = 'login',
-  call = 'call'
+  call = 'call',
 }

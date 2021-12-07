@@ -9,7 +9,7 @@ export default class Controller {
       this.model.name = inputValue
       this.model.sendMessage({
         type: MDataTypes.login,
-        name: this.model.name
+        name: this.model.name,
       })
     }
   }
@@ -22,7 +22,7 @@ export default class Controller {
 
   public handleHangUpButtonClick(): void {
     if (!this.model.guest) return
-  
+
     this.model.sendMessage({ type: MDataTypes.leave })
     this.model.handleMessageLeave()
   }

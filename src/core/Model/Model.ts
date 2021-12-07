@@ -9,7 +9,7 @@ export default class Model {
   bus = new EventBus()
   stream?: MediaStream
   peerConnection?: RTCPeerConnection
-  
+
   constructor() {
     this.webSocket = new WebSocket('wss://kosk-signaling.herokuapp.com')
 
@@ -17,9 +17,18 @@ export default class Model {
   }
 
   subscribeToEvents(): void {
-    this.webSocket.addEventListener('open', this.handleConnectionOpen.bind(this))
-    this.webSocket.addEventListener('error', this.handleConnectionError.bind(this))
-    this.webSocket.addEventListener('message', this.handleConnectionMessage.bind(this))
+    this.webSocket.addEventListener(
+      'open',
+      this.handleConnectionOpen.bind(this)
+    )
+    this.webSocket.addEventListener(
+      'error',
+      this.handleConnectionError.bind(this)
+    )
+    this.webSocket.addEventListener(
+      'message',
+      this.handleConnectionMessage.bind(this)
+    )
   }
 
   sendMessage(data: MData): void {
@@ -32,15 +41,15 @@ export default class Model {
 
   async startConnection(): Promise<void> {
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ 
-        video: true, 
-        audio: true 
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
       })
-  
+
       this.bus.emit(ModelEvents.startConnection, this.stream)
-  
+
       this.setupPeerConnection(this.stream)
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -66,7 +75,7 @@ export default class Model {
       if (e.candidate) {
         this.sendMessage({
           type: MDataTypes.candidate,
-          candidate: e.candidate
+          candidate: e.candidate,
         })
       }
     }
@@ -78,13 +87,14 @@ export default class Model {
       const offer = await this.peerConnection?.createOffer()
       this.sendMessage({
         type: MDataTypes.offer,
-        offer
+        offer,
       })
       if (offer) {
-        this.peerConnection?.setLocalDescription(offer)
+        this.peerConnection
+          ?.setLocalDescription(offer)
           .catch((e) => Promise.reject(e))
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -124,11 +134,11 @@ export default class Model {
         case MDataTypes.leave:
           this.handleMessageLeave()
           break
-      
+
         default:
           break
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -143,25 +153,29 @@ export default class Model {
     }
   }
 
-  async handleMessageOffer(offer: MData['offer'], name: MData['name']): Promise<void> {
+  async handleMessageOffer(
+    offer: MData['offer'],
+    name: MData['name']
+  ): Promise<void> {
     if (offer && name) {
       try {
         this.guest = name
-        this.peerConnection?.setRemoteDescription(
-          new RTCSessionDescription(offer)
-        ).catch((e) => console.log(e))
+        this.peerConnection
+          ?.setRemoteDescription(new RTCSessionDescription(offer))
+          .catch((e) => console.log(e))
 
         const answer = await this.peerConnection?.createAnswer()
 
         if (answer) {
-          this.peerConnection?.setLocalDescription(answer)
+          this.peerConnection
+            ?.setLocalDescription(answer)
             .catch((e) => console.log(e))
         }
         this.sendMessage({
           type: MDataTypes.answer,
-          answer
+          answer,
         })
-      } catch(e) {
+      } catch (e) {
         console.log(e)
       }
     }
@@ -169,17 +183,17 @@ export default class Model {
 
   handleMessageAnswer(answer: MData['answer']): void {
     if (answer) {
-      this.peerConnection?.setRemoteDescription(
-        new RTCSessionDescription(answer)
-      ).catch((e) => console.log(e))
+      this.peerConnection
+        ?.setRemoteDescription(new RTCSessionDescription(answer))
+        .catch((e) => console.log(e))
     }
   }
 
   handleMessageCandidate(candidate: MData['candidate']): void {
     if (candidate) {
-      this.peerConnection?.addIceCandidate(
-        new RTCIceCandidate(candidate)
-      ).catch((e) => console.log(e))
+      this.peerConnection
+        ?.addIceCandidate(new RTCIceCandidate(candidate))
+        .catch((e) => console.log(e))
     }
   }
 

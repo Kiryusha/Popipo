@@ -51,4 +51,3 @@ export class EventBus implements IEventBus {
     return `${this.lastId}`
   }
 }
-  

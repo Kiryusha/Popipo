@@ -21,13 +21,15 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "semi": ["error", "never"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "prettier/prettier": "error"
   },
   "parserOptions": {
     "ecmaVersion": 2020,
     "project": "./tsconfig.json"
   }, 
 	"plugins": [
-		"@typescript-eslint"
+		"@typescript-eslint",
+    "prettier"
 	]
 }
